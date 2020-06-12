@@ -2,6 +2,7 @@
 !.gitignore
 !*/
 !*.cpp
+!*.h
 !*.txt
 !*.md
 !*.code-workspace
