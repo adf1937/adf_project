@@ -12,4 +12,3 @@ string getCommand(bool return_string, const string ASKCODE)
 
     return command;
 }
-

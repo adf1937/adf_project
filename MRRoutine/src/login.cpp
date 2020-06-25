@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 vector<string> getUserName(string FILE_WAY)
 {
     vector<string> userName;
@@ -21,7 +20,6 @@ vector<string> getUserName(string FILE_WAY)
     return userName;
 };
 
-
 void newUserName(const string NAME_FILE_WAY, const string STATUS_FILE_WAY, const string USER_FILE_WAY, User user)
 {
     ofstream fout_un(NAME_FILE_WAY);   // User Name
@@ -35,9 +33,6 @@ void newUserName(const string NAME_FILE_WAY, const string STATUS_FILE_WAY, const
     system(COMMAND.c_str());
 };
 
-
-
-
 User login() // unfinished
 {
     User user;
@@ -46,16 +41,16 @@ User login() // unfinished
     ofstream fout_usc(STATUS_FILE_WAY); // user_secret
 
     string logInStatus;
-    cout << "   LOG IN" << endl
-         << endl;
 
-    logInStatus = getCommand("Log in or sign up?('log in' || 'sign up') : ");
+    getCommand(false, "LOG IN \n\n");
+
+    logInStatus = getCommand(true, "Log in or sign up?('log in' || 'sign up') : ");
     while ((logInStatus != "log in") && (logInStatus != "sign up"))
     {
-        logInStatus = getCommand("Input error. Please input 'log in' or 'sign up' : ");
+        logInStatus = getCommand(true, "Input error. Please input 'log in' or 'sign up' : ");
     }
 
-    user.name = getCommand("Please input your User Name : ");
+    user.name = getCommand(true, "Please input your User Name : ");
 
     /*vector<string> allName = getUserName
     if (logInStatus == "log in")
@@ -65,5 +60,3 @@ User login() // unfinished
 
     return user;
 }
-
-
