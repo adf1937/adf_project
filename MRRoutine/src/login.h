@@ -1,5 +1,5 @@
-#ifndef _login_h_
-#define _login_h_
+#ifndef _LOGIN_H_
+#define _LOGIN_H_
 
 #include <iostream>
 #include <map>

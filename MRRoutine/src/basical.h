@@ -1,5 +1,5 @@
-#ifndef _basical_h_
-#define _basical_h_
+#ifndef _BASIC_H_
+#define _BASIC_H_
 
 #include <iostream>
 #include <cstring>

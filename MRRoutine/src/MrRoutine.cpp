@@ -8,10 +8,17 @@
 
 #include "login.h"
 #include "basical.h"
+#include "schedule.h"
 using namespace std;
 
 int main() {
 	User usr;
 	usr = login();
+	
+	vector<Task> userTasks; 
+	getTasks(usr, userTasks);
+	scheduleTasks(userTasks);
+	printTasks(userTasks);
+
 	return 0;
 }
