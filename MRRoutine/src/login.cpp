@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<string> getUserName(string FILE_WAY)
+vector<string> getUserName(const string &FILE_WAY)
 {
     vector<string> userName;
 
@@ -20,7 +20,7 @@ vector<string> getUserName(string FILE_WAY)
     return userName;
 };
 
-void newUserName(const string NAME_FILE_WAY, const string STATUS_FILE_WAY, const string USER_FILE_WAY, User user)
+void newUserName(const string &NAME_FILE_WAY, const string &STATUS_FILE_WAY, const string &USER_FILE_WAY, User &user)
 {
     ofstream fout_un(NAME_FILE_WAY);   // User Name
     ofstream fout_us(STATUS_FILE_WAY); // User Status
