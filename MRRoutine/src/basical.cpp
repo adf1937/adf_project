@@ -1,12 +1,15 @@
-
 #include "basical.h"
 
-string getCommand(const string ASKCODE)
+string getCommand(bool return_string, const string ASKCODE)
 {
     string command;
 
     cout << ASKCODE;
-    getline(cin, command);
+    if (return_string)
+    {
+        getline(cin, command);
+    }
 
     return command;
 }
+

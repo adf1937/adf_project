@@ -5,6 +5,6 @@
 #include <cstring>
 using namespace std;
 
-string getCommand(const string ASKCODE);
+string getCommand(bool return_string, const string ASKCODE);
 
 #endif
