@@ -13,9 +13,9 @@ struct User
     string status;
 };
 
-vector<string> getUserName(string FILE_WAY);
+vector<string> getUserName(const string &FILE_WAY);
 
-void newUserName(const string NAME_FILE_WAY, const string STATUS_FILE_WAY, const string USER_FILE_WAY, User user);
+void newUserName(const string &NAME_FILE_WAY, const string &STATUS_FILE_WAY, const string &USER_FILE_WAY, User user);
 
 User login();
 
