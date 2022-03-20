@@ -5,6 +5,7 @@
 !*.h
 !*.txt
 !*.md
+!*.py
 !*.code-workspace
 *.dSYM
 build/
