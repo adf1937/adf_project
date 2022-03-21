@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import tkinter as tk  # 装载tkinter模块,用于Python3
 from tkinter import ttk  # 装载tkinter.ttk模块,用于Python3
-from bmservice import *
-from bbservice import *
+from bmframe import *
+from bbframe import *
 from busevice import *
 
 
