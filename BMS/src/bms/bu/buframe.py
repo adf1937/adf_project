@@ -39,7 +39,7 @@ class buframe():
         # Adding a Button
         action = ttk.Button(monty, text="添加",
                             width=10, command=self.clickMe)
-        action.grid(column=2, row=2, rowspan=2, ipady=7, sticky='N')
+        action.grid(column=3, row=2, rowspan=2, ipady=7, sticky='N')
 
         # 一次性控制各控件之间的距离
         for child in monty.winfo_children():
