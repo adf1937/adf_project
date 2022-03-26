@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import tkinter as tk  # 装载tkinter模块,用于Python3
 from tkinter import ttk  # 装载tkinter.ttk模块,用于Python3
+from util.bmsdb import *
 
 
 class buframe():
-    def __init__(self,  master=None):
+    def __init__(self,  db: BMSDB, master=None):
         self.nb = master
 
         self.tab_bu = ttk.Frame(self.nb)            # Add a third tab

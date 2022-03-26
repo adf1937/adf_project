@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
@@ -10,7 +11,7 @@ class booktreeview ():
 
     def createtreeview(self):
 
-        columns = ['书名', '状态', '借阅者', '学号', '时间']
+        columns = ['书名', '状态', '借阅者', '学号', '时间', '备注']
         self.table = ttk.Treeview(
             master=self.root,  # 父容器
             height=10,  # 表格显示的行数,height行
@@ -24,29 +25,19 @@ class booktreeview ():
         self.table.heading('借阅者', text='借阅者', )  # 定义表头
         self.table.heading('学号', text='学号', )  # 定义表头
         self.table.heading('时间', text='时间', )  # 定义表头
+        self.table.heading('备注', text='备注', )  # 定义表头
 
         self.table.column('书名', width=200, minwidth=100, anchor=S)  # 定义列
         self.table.column('状态', width=300, minwidth=100, anchor=S)  # 定义列
         self.table.column('借阅者', width=50, minwidth=50, anchor=S)  # 定义列
         self.table.column('学号', width=300, minwidth=100, anchor=S)  # 定义列
         self.table.column('时间', width=300, minwidth=100, anchor=S)  # 定义列
-
-        self.insert()
+        self.table.column('备注', width=300, minwidth=100, anchor=S)  # 定义列
 
         self.table.grid()
 
-        Button(self.root, text='添加', bg='yellow', width=20,
-               command=self.insert).grid()
-        Button(self.root, text='删除', bg='pink', width=20,
-               command=self.delete).grid()
+    def insert(self, info: list):
 
-    def insert(self):
-        # 插入数据
-        info = [
-            ['欧氏几何', '借出', '杜晨越',  '20240253', '2014-01-25', ],
-            ['三个火枪手', '借出', '杜建军', '20253053', '2012-01-25', ],
-            ['骆驼祥子', '在库', '', '', ]
-        ]
         for index, data in enumerate(info):
             self.table.insert('', END, values=data)  # 添加数据到末尾
 

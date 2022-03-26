@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sqlite3
 
 
@@ -71,36 +72,29 @@ class BMSDBSql():
     #     return True
 
 
-if __name__ == "__main__":
-    """
-    测试代码
-    """
-    sql = BMSDBSql()
+class BMSDB ():
+    def __init__(self):
+        self.sqlhelper = BMSDBSql('bms.db')
+        self.dbinit()
 
-    f = sql.execute('''
+    def dbinit(self):
+        self.sqlhelper.execute('''
     CREATE TABLE if not exists users (
     user_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     user_name TEXT,
-    user_number INTEGER,
+    user_number TEXT,
     user_passwd TEXT,
     class TEXT,
-    role INTEGER
+    role TEXT
 );
     ''')
 
-    sql.execute("insert into users (user_name, user_number, user_passwd, class, role) values (?,?,?,?,?);",
-                [('andy', 20240251, '8888', '202402', 2),
-                 ('david', 20240252, '8888', '202402', 1),
-                 ('admin', 20240252, '8888', '202402', 0)])
-    res = sql.query("select * from users;")
-    print(res)
-
-    f = sql.execute('''
+        self.sqlhelper.execute('''
     CREATE TABLE if not exists books (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     book_name TEXT,
     book_SN TEXT,
-    status INTEGER,
+    book_status TEXT,
     user_id INTEGER,
     user_name TEXT,
     date TEXT,
@@ -108,11 +102,61 @@ if __name__ == "__main__":
 );
     ''')
 
-    sql.execute("insert into books (book_name, book_SN, status, user_id,user_name, date, comments) values (?,?,?,?,?,?,?);",
-                [('冰与火之歌', '202402-1', 0, 0, '', '202220103', 'good'),
-                 ('Alice in wonder', '202402-2', 0, 0, '', '202220104', 'bad'),
-                 ('Robinson', '202402-3', 1, 1, 'andy', '20220105', 'no comments')])
-    res = sql.query("select * from books;")
-    print(res)
+    def insertFakeData(self):
 
-    sql.close()
+        self.sqlhelper.execute("insert into users (user_name, user_number, user_passwd, class, role) values (?,?,?,?,?);",
+                               [('andy', '20240251', '8888', '202402', '学生'),
+                                ('david', '20240252', '8888', '202402', '学生'),
+                                   ('admin', '20240252', '8888', '202402', '管理员')])
+        res = self.sqlhelper.query("select * from users;")
+        print(res)
+
+        self.sqlhelper.execute("insert into books (book_name, book_SN, book_status, user_id,user_name, date, comments) values (?,?,?,?,?,?,?);",
+                               [('冰与火之歌', '202402-1', '空闲', -1, '', '202220103', 'good'),
+                                ('Alice in wonder', '202402-2',
+                                 '维护', -1, '', '202220104', 'bad'),
+                                   ('Robinson', '202402-3', '借出', 1, 'andy', '20220105', 'no comments')])
+        res = self.sqlhelper.query("select * from books;")
+        print(res)
+
+    def checkUser(self, user, passwd):
+        res = self.sqlhelper.query(
+            "select * from users where user_name =? and user_passwd = ? ", [user, passwd])
+        if (len(res) <= 0):
+            return False
+        for row in res:
+            print(row)
+        return True
+
+    def searchBook(self, a_bkstatus, a_bkname, a_bkusername):
+        count = False
+
+        sql1 = "select book_name, book_status, user_name, user_id, date, comments from books"
+        #sql1 = "select * from books"
+        if (a_bkname == None):
+            a_bkname = ""
+
+        if (a_bkusername == None):
+            a_bkusername = ""
+
+        if a_bkstatus != "所有":
+            sql1 += ' where book_status="' + a_bkstatus + '"' + " and "
+        else:
+            sql1 += ' where'
+
+        sql1 += " book_name like '%" + a_bkname + "%'"
+        sql1 += " and user_name like '%" + a_bkusername + "%'"
+
+        print(sql1)
+        res = self.sqlhelper.query(sql1)
+        return res
+
+
+if __name__ == "__main__":
+    """
+    测试代码
+    """
+    db = BMSDB()
+    # db.insertFakeData()
+    #db.checkUser("andy", "8888")
+    db.searchBook("借出", "", "")

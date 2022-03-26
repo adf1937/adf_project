@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import tkinter as tk  # 装载tkinter模块,用于Python3
 from tkinter import ttk  # 装载tkinter.ttk模块,用于Python3
+from util.bmsdb import *
 
 
 class bbframe():
-    def __init__(self,  master=None):
+    def __init__(self, db: BMSDB,  master=None):
         self.nb = master
         self.tab_bb = ttk.Frame(self.nb)
         self.nb.add(self.tab_bb, text='借阅管理')      # Add the tab

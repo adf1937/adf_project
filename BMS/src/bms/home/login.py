@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
 from tkinter import *
 from tkinter import messagebox
 from home.home import *
+from util.bmsdb import *
 
 
 class login(object):
-    def __init__(self, master=None):
+    def __init__(self, db: BMSDB, master=None):
+        self.db = db
         self.root = master  # 定义内部变量root
         self.root.geometry('300x150+888+444')
         self.root.title('图书管理系统')
@@ -27,8 +30,9 @@ class login(object):
     def submit(self):
         aUser = self.enUser.get()
         aPasswd = self.enPasswd.get()
-        if aUser == "admin" and aPasswd == '8888':
+
+        if self.db.checkUser(aUser, aPasswd):
             self.fr1.destroy()  # 登录界面卸载
-            home(self.root)  # 密码对，就把主窗体模块的界面加载
+            home(self.db, self.root)  # 密码对，就把主窗体模块的界面加载
         else:
-            messagebox.showwarning("警告：", "密码错误，请重试!")
+            messagebox.showwarning("警告：", "用户名或者码错误，请重试!")

@@ -4,20 +4,22 @@ from tkinter import ttk
 from bm.bmframe import *
 from bb.bbframe import *
 from bu.buframe import *
+from util.bmsdb import *
 
 
 class home():
-    def __init__(self, master=None):
+    def __init__(self, db: BMSDB, master=None):
         self.root = master
+        self.db = db
         self.root.state("zoomed")
         self.createnb()
 
     def createnb(self):
         self.nb = ttk.Notebook(self.root)  # 创建Notebook
 
-        self.bb = bbframe(self.nb)
-        self.bm = bmframe(self.nb)
-        self.bu = buframe(self.nb)
+        self.bb = bbframe(self.db, self.nb)
+        self.bm = bmframe(self.db, self.nb)
+        self.bu = buframe(self.db, self.nb)
 
         self.nb.grid(row=0, column=0)
 
