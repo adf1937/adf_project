@@ -157,6 +157,6 @@ if __name__ == "__main__":
     测试代码
     """
     db = BMSDB()
-    # db.insertFakeData()
-    #db.checkUser("andy", "8888")
+    db.insertFakeData()
+    db.checkUser("andy", "8888")
     db.searchBook("借出", "", "")
