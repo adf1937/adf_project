@@ -151,12 +151,18 @@ class BMSDB ():
         res = self.sqlhelper.query(sql1)
         return res
 
+    def addBook(self, a_bkname, a_bksn, a_bkcomments):
+        self.sqlhelper.execute("insert into books (book_name, book_SN, book_status, comments) values (?,?,?,?);",
+                               [(a_bkname, a_bksn, '空闲', a_bkcomments)])
+        res = self.searchBook("所有", a_bkname, "")
+        print(res)
+
 
 if __name__ == "__main__":
     """
     测试代码
     """
     db = BMSDB()
-    db.insertFakeData()
+    # db.insertFakeData()
     db.checkUser("andy", "8888")
     db.searchBook("借出", "", "")
