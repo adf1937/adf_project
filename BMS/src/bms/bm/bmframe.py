@@ -83,14 +83,14 @@ class bmframe():
         ttk.Label(monty, text="书名").grid(column=0, row=0, sticky='W')
         # Adding a Textbox Entry widget
         self.newbkname = tk.StringVar()
-        bknameEntered = ttk.Entry(monty, width=12, textvariable=self.newbkname)
+        bknameEntered = ttk.Entry(monty, width=20, textvariable=self.newbkname)
         bknameEntered.grid(column=0, row=1, sticky='W')
 
         # Adding Book SN
         ttk.Label(monty, text="书号").grid(column=1, row=0, sticky='W')
         # Adding a Textbox Entry widget
         self.newbksn = tk.StringVar()
-        bknameEntered = ttk.Entry(monty, width=12, textvariable=self.newbksn)
+        bknameEntered = ttk.Entry(monty, width=30, textvariable=self.newbksn)
         bknameEntered.grid(column=1, row=1, sticky='W')
 
         # Adding Book Comments
@@ -98,7 +98,7 @@ class bmframe():
         # Adding a Textbox Entry widget
         self.newbkComments = tk.StringVar()
         bknameEntered = ttk.Entry(
-            monty, width=12, textvariable=self.newbkComments)
+            monty, width=40, textvariable=self.newbkComments)
         bknameEntered.grid(column=2, row=1, sticky='W')
 
         # Adding a Button for search
@@ -116,6 +116,29 @@ class bmframe():
         bksn = self.newbksn.get()
         bkcomments = self.newbkComments.get()
         print(bkname + " " + bksn + " " + bkcomments)
+
+        if bkname == '':
+            tk.messagebox.showerror('错误', '书名不能为空')
+            return
+        if bksn == '':
+            tk.messagebox.showerror('错误', '书号不能为空')
+            return
+
+        res = self.db.searchBookbySN(bksn)
+
+        if len(res) > 0:
+            msg = '书号重复'
+            for row in res:
+                book, sn = row[0], row[1]
+                msg = msg + ': 书名=' + book + ', 书号=' + sn
+                break
+            tk.messagebox.showerror('错误', msg)
+            return
+
         self.db.addBook(bkname, bksn, bkcomments)
+
+        res = self.db.searchBookbySN(bksn)
+        self.bktreeview.delete()
+        self.bktreeview.insert(res)
 
         pass

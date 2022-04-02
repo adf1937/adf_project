@@ -11,7 +11,7 @@ class booktreeview ():
 
     def createtreeview(self):
 
-        columns = ['书名', '状态', '借阅者', '学号', '时间', '备注']
+        columns = ['书名', '书号', '状态', '借阅者', '学号', '时间', '备注']
         self.table = ttk.Treeview(
             master=self.root,  # 父容器
             height=10,  # 表格显示的行数,height行
@@ -21,6 +21,7 @@ class booktreeview ():
 
         self.table.heading(column='书名',  text='书名',
                            command=lambda: print('书名'))  # 定义表头
+        self.table.heading('书号', text='书号', )  # 定义表头
         self.table.heading('状态', text='状态', )  # 定义表头
         self.table.heading('借阅者', text='借阅者', )  # 定义表头
         self.table.heading('学号', text='学号', )  # 定义表头
@@ -28,11 +29,12 @@ class booktreeview ():
         self.table.heading('备注', text='备注', )  # 定义表头
 
         self.table.column('书名', width=200, minwidth=100, anchor=S)  # 定义列
-        self.table.column('状态', width=300, minwidth=100, anchor=S)  # 定义列
+        self.table.column('书号', width=200, minwidth=100, anchor=S)  # 定义列
+        self.table.column('状态', width=50, minwidth=100, anchor=S)  # 定义列
         self.table.column('借阅者', width=50, minwidth=50, anchor=S)  # 定义列
-        self.table.column('学号', width=300, minwidth=100, anchor=S)  # 定义列
-        self.table.column('时间', width=300, minwidth=100, anchor=S)  # 定义列
-        self.table.column('备注', width=300, minwidth=100, anchor=S)  # 定义列
+        self.table.column('学号', width=200, minwidth=100, anchor=S)  # 定义列
+        self.table.column('时间', width=200, minwidth=100, anchor=S)  # 定义列
+        self.table.column('备注', width=200, minwidth=100, anchor=S)  # 定义列
 
         self.table.grid()
 

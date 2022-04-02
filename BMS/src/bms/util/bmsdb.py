@@ -81,7 +81,7 @@ class BMSDB ():
         self.sqlhelper.execute('''
     CREATE TABLE if not exists users (
     user_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    user_name TEXT,
+    user_name TEXT ,
     user_number TEXT,
     user_passwd TEXT,
     class TEXT,
@@ -92,13 +92,13 @@ class BMSDB ():
         self.sqlhelper.execute('''
     CREATE TABLE if not exists books (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    book_name TEXT,
-    book_SN TEXT,
-    book_status TEXT,
-    user_id INTEGER,
-    user_name TEXT,
-    date TEXT,
-    comments TEXT
+    book_name TEXT default '',
+    book_SN TEXT default '',
+    book_status TEXT default '',
+    user_id INTEGER default -1,
+    user_name TEXT default '',
+    date TEXT default '',
+    comments TEXT default ''
 );
     ''')
 
@@ -131,7 +131,7 @@ class BMSDB ():
     def searchBook(self, a_bkstatus, a_bkname, a_bkusername):
         count = False
 
-        sql1 = "select book_name, book_status, user_name, user_id, date, comments from books"
+        sql1 = "select book_name,book_SN, book_status, user_name, user_id, date, comments from books"
         #sql1 = "select * from books"
         if (a_bkname == None):
             a_bkname = ""
@@ -151,6 +151,17 @@ class BMSDB ():
         res = self.sqlhelper.query(sql1)
         return res
 
+    def searchBookbySN(self, a_bksn):
+        count = False
+
+        sql1 = "select book_name,book_SN, book_status, user_name, user_id, date, comments from books"
+        #sql1 = "select * from books"
+        sql1 += ' where book_sn="' + a_bksn + '"'
+
+        print(sql1)
+        res = self.sqlhelper.query(sql1)
+        return res
+
     def addBook(self, a_bkname, a_bksn, a_bkcomments):
         self.sqlhelper.execute("insert into books (book_name, book_SN, book_status, comments) values (?,?,?,?);",
                                [(a_bkname, a_bksn, '空闲', a_bkcomments)])
@@ -163,6 +174,6 @@ if __name__ == "__main__":
     测试代码
     """
     db = BMSDB()
-    # db.insertFakeData()
+    db.insertFakeData()
     db.checkUser("andy", "8888")
     db.searchBook("借出", "", "")
