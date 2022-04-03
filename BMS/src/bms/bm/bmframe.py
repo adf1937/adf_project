@@ -17,12 +17,13 @@ class bmframe():
     def createbmpage(self):
         self.createBookSearchLableFrame()
         self.createBookAddLableFrame()
+        self.bktreeview = booktreeview(self.tab_bm)
 
     def createBookSearchLableFrame(self):
 
         #---------------Tab1控件介绍------------------#
         # We are creating a container tab3 to hold all other widgets
-        monty = ttk.LabelFrame(self.tab_bm, text='书籍查询')
+        monty = ttk.LabelFrame(self.tab_bm, text='书籍查询', labelanchor="n")
         monty.grid(column=0, row=0, padx=8, pady=4)
 
         # Adding a Combobox for status
@@ -59,8 +60,6 @@ class bmframe():
             child.grid_configure(padx=3, pady=1)
         # 单独控制个别控件之间的距离
 
-        self.bktreeview = booktreeview(self.tab_bm)
-
     def search_m(self):
         bkStatus = self.bkstatus.get()
         bkName = self.bkname.get()
@@ -76,7 +75,7 @@ class bmframe():
 
         #---------------Tab1控件介绍------------------#
         # We are creating a container tab3 to hold all other widgets
-        monty = ttk.LabelFrame(self.tab_bm, text='书籍添加')
+        monty = ttk.LabelFrame(self.tab_bm, text='书籍添加', labelanchor="n")
         monty.grid(column=0, row=40, padx=8, pady=4)
 
         # Adding Book name
