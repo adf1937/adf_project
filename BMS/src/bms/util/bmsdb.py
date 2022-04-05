@@ -76,6 +76,7 @@ class BMSDB ():
     def __init__(self):
         self.sqlhelper = BMSDBSql('bms.db')
         self.dbinit()
+        self.checkAdminUser()
 
     def dbinit(self):
         self.sqlhelper.execute('''
@@ -128,11 +129,22 @@ class BMSDB ():
             print(row)
         return True
 
+    def checkAdminUser(self):
+        res = self.sqlhelper.query(
+            "select * from users where user_name =? ", ['admin'])
+        if (len(res) > 0):
+            return
+
+        self.sqlhelper.execute("insert into users (user_name, user_number, user_passwd, class, role) values (?,?,?,?,?);",
+                               [('admin', '20240252', '8888', '202402', '管理员')])
+        res = self.sqlhelper.query("select * from users;")
+        return
+
     def searchBook(self, a_bkstatus, a_bkname, a_bkusername):
         count = False
 
         sql1 = "select book_name,book_SN, book_status, user_name, user_id, date, comments from books"
-        #sql1 = "select * from books"
+        # sql1 = "select * from books"
         if (a_bkname == None):
             a_bkname = ""
 
@@ -155,7 +167,7 @@ class BMSDB ():
         count = False
 
         sql1 = "select book_name,book_SN, book_status, user_name, user_id, date, comments from books"
-        #sql1 = "select * from books"
+        # sql1 = "select * from books"
         sql1 += ' where book_sn="' + a_bksn + '"'
 
         print(sql1)
@@ -164,7 +176,7 @@ class BMSDB ():
 
     def addBook(self, a_bkname, a_bksn, a_bkcomments):
         self.sqlhelper.execute("insert into books (book_name, book_SN, book_status, comments) values (?,?,?,?);",
-                               [(a_bkname, a_bksn, '空闲', a_bkcomments)])
+                               [(a_bkname, a_bksn, '维护', a_bkcomments)])
         res = self.searchBook("所有", a_bkname, "")
         print(res)
 
