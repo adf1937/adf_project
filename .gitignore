@@ -6,6 +6,8 @@
 !*.txt
 !*.md
 !*.py
+!*.bat
+!*.sh
 !*.code-workspace
 *.dSYM
 build/
