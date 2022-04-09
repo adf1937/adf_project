@@ -1,1 +1,1 @@
-pyinstaller -F -w ./../src/bms/main.py
+pyinstaller -F -w ./../src/bms/bms.py
