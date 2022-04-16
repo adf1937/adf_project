@@ -4,11 +4,13 @@ from tkinter import *
 from tkinter import ttk
 from util.bmsdb import BMSDB
 import operator
+import bm.bmframe
 
 
 class booktreeview ():
     def __init__(self,  db: BMSDB, master):
-        self.root = master
+        self.master = master
+        self.root = master.tab_bm
         self.db = db
         self.createtreeview()
 
@@ -38,6 +40,8 @@ class booktreeview ():
         self.table.column('学号', width=200, minwidth=100, anchor=S)  # 定义列
         self.table.column('时间', width=200, minwidth=100, anchor=S)  # 定义列
         self.table.column('备注', width=400, minwidth=100, anchor=S)  # 定义列
+
+        self.table["displaycolumns"] = ('书名', '书号', '状态', '借阅者', '学号', '时间')
 
         self.table.grid()
 
@@ -103,8 +107,10 @@ class booktreeview ():
         for item in tupBkStatus:
             lbBookStatus.insert("end", item)
         lbBookStatus.select_set(idx, idx)  #
+        lbBookStatus.activate(idx)
 
-        lblBookStatus = Label(win, text=self.table.heading(2)["text"])
+        lblBookStatus = Label(win, text='%s(%s)' % (
+            self.table.heading(2)["text"], srcBkStatus))
         lblBookStatus.grid(row=2, column=0)
         lbBookStatus.grid(row=3, column=0)
 
@@ -138,23 +144,58 @@ class booktreeview ():
         def UpdateThenDestroy(self):
             srcBookSN = self.srcData[1]
 
+            try:
+                lbBookStatus.get(lbBookStatus.curselection()),
+            except Exception as e:
+                print(e)
+                tk.messagebox.showerror('错误', '书籍状态未选！')
+                return
+
             newdata = [entBook.get(),
                        entBookSN.get(),
-                       # entBookStatus.get(),
                        lbBookStatus.get(lbBookStatus.curselection()),
                        entBorrower.get(),
                        entBorrowerSN.get(),
                        entBorrowerTime.get(),
-                       txtComments.get("1.0", "end")
+                       txtComments.get("1.0", "end").strip()
                        ]
+
             if operator.eq(self.srcData, newdata):
                 tk.messagebox.showinfo('告警', '所有字段没有修改!')
                 return
-            if self.db.updateBookbySN(srcBookSN, newdata):
-                tk.messagebox.showinfo('成功', '书籍记录修改成功！')
-            else:
+
+            bkname, bksn, bkstatus, bkBorrower, bkBorrowerSN, bkBorrowerDate, _ = tuple(
+                newdata)
+
+            if bkstatus == '借出' and (bkBorrower == '' or bkBorrowerSN == ''):
+                tk.messagebox.showinfo('告警', '书籍借出，但借阅者信息缺乏!')
+                return
+
+            if (bkstatus == '空闲') and (bkBorrower != '' or bkBorrowerSN != ''):
+                tk.messagebox.showinfo('告警', '书籍空闲或维护，但借阅者信息没有清空缺乏!')
+                return
+
+            if (bkname == '' or bksn == ''):
+                tk.messagebox.showinfo('告警', '书籍名称或者书籍号为空!')
+                return
+
+            if bkstatus not in ('空闲', '借出', '维护'):
+                tk.messagebox.showinfo('告警', '书籍状态错误!')
+                return
+
+            if bksn != '' and bksn != srcBookSN:
+                res = self.db.searchBookbySN(bksn)
+                if len(res) > 0:
+                    tk.messagebox.showerror('错误', '书号已经存在！')
+                    return
+
+            if not(self.db.updateBookbySN(srcBookSN, newdata)):
                 tk.messagebox.showwarning('告警', '书籍记录修改失败！')
+                return
+
+            tk.messagebox.showinfo('成功', '书籍记录修改成功！')
             win.destroy()
+            self.master.search_m()
 
         def DeleteThenDestroy(self):
             self.db.deleteBookbySN(entBookSN.get())

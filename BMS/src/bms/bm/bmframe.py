@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import ttk
 from bm.booktreeview import *
 from util.bmsdb import BMSDB
+import bm.booktreeview
 
 
 class bmframe():
@@ -17,7 +18,7 @@ class bmframe():
     def createbmpage(self):
         self.createBookSearchLableFrame()
         self.createBookAddLableFrame()
-        self.bktreeview = booktreeview(self.db, self.tab_bm)
+        self.bktreeview = bm.booktreeview.booktreeview(self.db, self)
 
     def createBookSearchLableFrame(self):
 

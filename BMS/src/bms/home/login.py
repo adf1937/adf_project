@@ -23,9 +23,17 @@ class login(object):
         self.enUser.grid(row=0, column=1)
         self.enPasswd = Entry(self.fr1, show="*")
         self.enPasswd.grid(row=1, column=1)
+
+        #self.enUser.bind_all("<Return>", self.enter)
+        #self.enPasswd.bind_all("<Return>", self.enter)
+        self.fr1.bind_all("<Return>", self.enter)
+
         self.but1 = Button(
             self.fr1, text="登录", command=self.submit).grid(row=2, column=1)
         self.enUser.focus_set()  # 获得焦点
+
+    def enter(self, event):
+        self.submit()
 
     def submit(self):
         aUser = self.enUser.get()
