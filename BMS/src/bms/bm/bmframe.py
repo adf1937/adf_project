@@ -17,7 +17,7 @@ class bmframe():
     def createbmpage(self):
         self.createBookSearchLableFrame()
         self.createBookAddLableFrame()
-        self.bktreeview = booktreeview(self.tab_bm)
+        self.bktreeview = booktreeview(self.db, self.tab_bm)
 
     def createBookSearchLableFrame(self):
 

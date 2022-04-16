@@ -96,7 +96,7 @@ class BMSDB ():
     book_name TEXT default '',
     book_SN TEXT default '',
     book_status TEXT default '',
-    user_id INTEGER default -1,
+    user_id TEXT default '',
     user_name TEXT default '',
     date TEXT default '',
     comments TEXT default ''
@@ -113,10 +113,10 @@ class BMSDB ():
         print(res)
 
         self.sqlhelper.execute("insert into books (book_name, book_SN, book_status, user_id,user_name, date, comments) values (?,?,?,?,?,?,?);",
-                               [('冰与火之歌', '202402-1', '空闲', -1, '', '202220103', 'good'),
+                               [('冰与火之歌', '202402-1', '空闲', '', '', '202220103', 'good'),
                                 ('Alice in wonder', '202402-2',
-                                 '维护', -1, '', '202220104', 'bad'),
-                                   ('Robinson', '202402-3', '借出', 1, 'andy', '20220105', 'no comments')])
+                                 '维护', '', '', '202220104', 'bad'),
+                                   ('Robinson', '202402-3', '借出', '1', 'andy', '20220105', 'no comments')])
         res = self.sqlhelper.query("select * from books;")
         print(res)
 
@@ -172,6 +172,25 @@ class BMSDB ():
 
         print(sql1)
         res = self.sqlhelper.query(sql1)
+        return res
+
+    def deleteBookbySN(self, a_bksn):
+        count = False
+
+        sql1 = "delete from books"
+        sql1 += ' where book_sn="' + a_bksn + '"'
+
+        print(sql1)
+        res = self.sqlhelper.execute(sql1)
+        return res
+
+    def updateBookbySN(self, a_bksn, bookinfo):
+        bookinfo.append(a_bksn)
+        sql1 = 'update books set book_name="%s", book_SN="%s", book_status="%s",  user_name ="%s", user_id ="%s", date ="%s", comments ="%s" where book_SN="%s";' % (
+            tuple(bookinfo))
+        print(sql1)
+        res = self.sqlhelper.execute(sql1)
+        print(res)
         return res
 
     def addBook(self, a_bkname, a_bksn, a_bkcomments):
