@@ -65,6 +65,7 @@ class booktreeview ():
         win.attributes("-toolwindow", True)
 
         self.srcData = []
+        values = []
 
         for item in self.table.selection():
             # item = I001
@@ -200,6 +201,7 @@ class booktreeview ():
         def DeleteThenDestroy(self):
             self.db.deleteBookbySN(entBookSN.get())
             win.destroy()
+            self.master.search_m()
 
         okButt = Button(win, text="确定修改")
         okButt.bind("<Button-1>", lambda e: UpdateThenDestroy(self))
