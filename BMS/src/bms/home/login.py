@@ -35,4 +35,4 @@ class login(object):
             self.fr1.destroy()  # 登录界面卸载
             home(self.db, self.root)  # 密码对，就把主窗体模块的界面加载
         else:
-            messagebox.showwarning("警告：", "用户名或者码错误，请重试!")
+            messagebox.showwarning("警告：", "用户名或者密码错误，请重试!")

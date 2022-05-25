@@ -29,7 +29,7 @@ class booktreeview ():
 
         self.table.column('书名', width=200, minwidth=100, anchor=S)  # 定义列
         self.table.column('状态', width=300, minwidth=100, anchor=S)  # 定义列
-        self.table.column('借阅者', width=50, minwidth=50, anchor=S)  # 定义列
+        self.table.column('借阅者', width=150, minwidth=100, anchor=S)  # 定义列
         self.table.column('学号', width=300, minwidth=100, anchor=S)  # 定义列
         self.table.column('时间', width=300, minwidth=100, anchor=S)  # 定义列
         self.table.column('备注', width=300, minwidth=100, anchor=S)  # 定义列
